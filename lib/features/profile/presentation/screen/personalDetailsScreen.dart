@@ -1,5 +1,5 @@
 import 'package:eazy/constants.dart';
-import 'package:eazy/features/authscreen/update_password_screen.dart';
+import 'package:eazy/features/authscreen/presentation/screens/update_password_screen.dart';
 import 'package:eazy/features/authscreen/widgets/custom_buttom.dart';
 import 'package:eazy/features/authscreen/widgets/custom_icon_bar.dart';
 import 'package:eazy/features/authscreen/widgets/custom_text_field.dart';
@@ -8,6 +8,7 @@ import 'package:eazy/features/home/presentation/Screens/home.dart';
 import 'package:eazy/features/profile/presentation/screen/profileScreen.dart';
 import 'package:eazy/helper/show_dialog.dart';
 import 'package:flutter/material.dart';
+
 
 class PersonalDetailsScreen extends StatelessWidget {
   const PersonalDetailsScreen({super.key});

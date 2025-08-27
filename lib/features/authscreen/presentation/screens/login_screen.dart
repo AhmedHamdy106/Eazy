@@ -4,8 +4,8 @@ import 'package:eazy/features/authscreen/widgets/custom_text_field.dart';
 import 'package:eazy/features/home/presentation/Screens/home.dart';
 import 'package:eazy/nav_bar.dart';
 import 'package:flutter/material.dart';
-import '../../constants.dart';
-import '../../helper/show_dialog.dart';
+import '../../../../constants.dart';
+import '../../../../helper/show_dialog.dart';
 import 'forget_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {

@@ -1,8 +1,8 @@
 import 'package:eazy/features/authscreen/widgets/custom_buttom.dart';
 import 'package:eazy/features/authscreen/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
-import '../../constants.dart';
-import '../../helper/show_snack_bar.dart';
+import '../../../../constants.dart';
+import '../../../../helper/show_snack_bar.dart';
 import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {

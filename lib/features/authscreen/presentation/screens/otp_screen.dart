@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:eazy/constants.dart';
-import 'package:eazy/features/authscreen/reset_password.dart';
+import 'package:eazy/features/authscreen/presentation/screens/reset_password.dart';
 import 'package:eazy/features/authscreen/widgets/custom_buttom.dart';
 import 'package:eazy/features/authscreen/widgets/custom_icon_bar.dart';
 import 'package:flutter/material.dart';
