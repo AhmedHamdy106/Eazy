@@ -1,5 +1,6 @@
 import 'package:eazy/core/config/app_palette.dart';
 import 'package:eazy/core/config/images_manager.dart';
+import 'package:eazy/core/config/text_styles_manager.dart';
 import 'package:eazy/core/routing/routes.dart';
 import 'package:eazy/core/utils/extensions.dart';
 import 'package:flutter/material.dart';
@@ -48,11 +49,12 @@ class LessonDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: GoogleFonts.tajawal(
-        fontSize: 12.sp,
-        color: Colors.grey[600],
-        height: 1.6,
-      ),
+      style: TextStylesManager.headlineLargeLight,
+      // style: GoogleFonts.tajawal(
+      //   fontSize: 12.sp,
+      //   color: Colors.grey[600],
+      //   height: 1.6,
+      // ),
     );
   }
 }
@@ -102,8 +104,10 @@ class LessonHeader extends StatelessWidget {
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: AppPalette.badgeButton,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 20.h,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18.r),
                   ),
@@ -112,10 +116,8 @@ class LessonHeader extends StatelessWidget {
                 ),
                 child: Text(
                   'ابدأ الدرس الأول',
-                  style: GoogleFonts.tajawal(
-                    color: Colors.white,
+                  style: TextStylesManager.headlineSmallLight.copyWith(
                     fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),

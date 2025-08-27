@@ -1,3 +1,4 @@
+import 'package:eazy/core/config/text_styles_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:eazy/core/config/app_palette.dart';
 
@@ -72,14 +73,7 @@ class SectionScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppPalette.backgroundLight,
       appBar: AppBar(
-        title: const Text(
-          "الأقسام",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-            color: Colors.black87,
-          ),
-        ),
+        title: Text("الأقسام", style: TextStylesManager.titleLarge),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -142,11 +136,7 @@ class ServiceCard extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 service.title,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black87,
-                ),
+                style: TextStylesManager.titleSmall,
                 textAlign: TextAlign.center,
               ),
             ],

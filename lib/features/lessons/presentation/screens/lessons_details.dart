@@ -1,5 +1,6 @@
 import 'package:eazy/core/config/app_palette.dart';
 import 'package:eazy/core/config/images_manager.dart';
+import 'package:eazy/core/config/text_styles_manager.dart';
 import 'package:eazy/features/lessons/presentation/widgets/showExitLessons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -99,18 +100,14 @@ class LessonsDetails extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          "الفرق بين {these-those}",
+                          "الفرق بين {a - an}",
                           textAlign: TextAlign.right,
-                          style: GoogleFonts.tajawal(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
+                          style: TextStylesManager.bodyMediumLight,
                         ),
                       ),
                       IconButton(
                         onPressed: () {
-                          // fav button
+                          // Fav button
                         },
                         icon: Icon(
                           Icons.bookmark,
@@ -136,10 +133,8 @@ class LessonsDetails extends StatelessWidget {
 
                   Text(
                     "سنتعلم في هذا الدرس متى نستخدم سنتعلم في هذا الدرس متى نستخدم مع  ",
-                    style: GoogleFonts.tajawal(
+                    style: TextStylesManager.headlineLargeLight.copyWith(
                       fontSize: 12.sp,
-                      color: Colors.grey[600],
-                      height: 1.6,
                     ),
                   ),
 
@@ -149,18 +144,18 @@ class LessonsDetails extends StatelessWidget {
                     children: [
                       Text(
                         "الامثلة",
-                        style: GoogleFonts.tajawal(
+                        style: TextStylesManager.bodySmallLight.copyWith(
                           fontSize: 12.sp,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.orange,
                         ),
                       ),
                       SizedBox(height: 8.h),
                       _buildExample("It's a present day", "إنه يوم حاضر"),
                       _buildExample("It's a lovely day", "إنه يوم جميل"),
                       _buildExample("Are you a doctor?", "هل أنت طبيب؟"),
-                      _buildExample("I have got a daughter and two sons",
-                          "لدي بنت وولدين"),
+                      _buildExample(
+                        "I have got a daughter and two sons",
+                        "لدي بنت وولدين",
+                      ),
                     ],
                   ),
 
@@ -170,7 +165,7 @@ class LessonsDetails extends StatelessWidget {
                     "أيضاً: نستخدم a مع الاسم الجمع وتأتي قبل",
                     style: GoogleFonts.tajawal(
                       fontSize: 12.sp,
-                      color: Colors.blue,
+                      color: AppPalette.badgeButton,
                       height: 1.6,
                     ),
                   ),
@@ -305,10 +300,13 @@ class LessonsDetails extends StatelessWidget {
                         ),
                         child: Text(
                           'انهي الدرس',
-                          style: GoogleFonts.tajawal(
+                          style: TextStylesManager.headlineSmallLight.copyWith(
                             fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
                           ),
+                          // style: GoogleFonts.tajawal(
+                          //   fontSize: 16.sp,
+                          //   fontWeight: FontWeight.w600,
+                          // ),
                         ),
                       ),
                     ),
@@ -331,19 +329,13 @@ class LessonsDetails extends StatelessWidget {
         children: [
           Text(
             arabic,
-            style: GoogleFonts.tajawal(
-              fontSize: 10.sp,
-              color: Colors.grey[600],
-            ),
+            style: GoogleFonts.tajawal(fontSize: 10.sp, color: Colors.black),
           ),
           SizedBox(width: 8.w),
           Text(
             "• $english",
             textDirection: TextDirection.ltr,
-            style: GoogleFonts.tajawal(
-              fontSize: 10.sp,
-              color: Colors.grey[600],
-            ),
+            style: GoogleFonts.tajawal(fontSize: 10.sp, color: Colors.black),
           ),
         ],
       ),

@@ -2,9 +2,9 @@ import 'package:eazy/core/config/app_palette.dart';
 import 'package:eazy/core/config/images_manager.dart';
 import 'package:eazy/features/Subscriptions/Screens/payment.dart';
 import 'package:eazy/features/profile/presentation/screen/profileScreen.dart';
+import 'package:eazy/nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
 class UpgradeNowScreen extends StatelessWidget {
   const UpgradeNowScreen({super.key});
@@ -24,10 +24,16 @@ class UpgradeNowScreen extends StatelessWidget {
                 children: [
                   // زر الإغلاق
                   Align(
-                    alignment: Alignment.topLeft,
+                    alignment: Alignment.topRight,
                     child: GestureDetector(
-                      onTap: () => Navigator.pop(context),
-
+                      onTap: () => Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const CustomNavBar(initialIndex: 2),
+                        ),
+                        (route) => false,
+                      ),
                       child: const Icon(
                         Icons.close,
                         color: AppPalette.textLight,
@@ -37,7 +43,6 @@ class UpgradeNowScreen extends StatelessWidget {
                   const SizedBox(height: 20),
 
                   // أيقونة القفل
-                  //SvgPicture.asset(ImagesManager.unLocked, height: 80),
                   Image.asset(ImagesManager.unlock, height: 80),
 
                   const SizedBox(height: 20),
@@ -212,7 +217,6 @@ class UpgradeNowScreen extends StatelessWidget {
                                     icon: Image.asset(
                                       ImagesManager.crownP,
                                       height: 20,
-
                                     ),
                                     label: const Text(
                                       "اشتراك",

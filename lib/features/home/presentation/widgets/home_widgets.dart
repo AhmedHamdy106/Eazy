@@ -1,5 +1,4 @@
-
-import 'package:eazy/features/Questionsafterlesson/first%20question.dart';
+import 'package:eazy/core/config/text_styles_manager.dart';
 import 'package:eazy/features/home/presentation/Screens/section_screen.dart';
 import 'package:eazy/features/lessons/presentation/screens/lessons.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:eazy/core/config/app_palette.dart';
 import 'package:eazy/core/config/images_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 import '../../../../core/routing/routes.dart';
 
 class PromotionalBanner extends StatefulWidget {
@@ -86,19 +84,18 @@ class _PromotionalBannerState extends State<PromotionalBanner> {
               children: [
                 RichText(
                   text: TextSpan(
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                    style: TextStylesManager.headlineMediumLight.copyWith(
+                      color: AppPalette.textLight,
+                      fontWeight: FontWeight.bold,
                     ),
                     children: [
                       TextSpan(text: title1),
                       TextSpan(
                         text: title2,
-                        style: const TextStyle(
-                          fontSize: 20,
+                        style: TextStylesManager.titleLarge.copyWith(
+                          color: AppPalette.primary,
                           fontWeight: FontWeight.bold,
-                          color: Colors.blue,
+                          fontSize: 20,
                         ),
                       ),
                     ],
@@ -107,12 +104,16 @@ class _PromotionalBannerState extends State<PromotionalBanner> {
                 const SizedBox(height: 4),
                 RichText(
                   text: TextSpan(
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      height: 1.2,
+                    style: TextStylesManager.headlineMediumLight.copyWith(
+                      color: AppPalette.textLight,
+                      fontWeight: FontWeight.bold,
                     ),
+                    // TextStyle(
+                    //   color: Colors.white,
+                    //   fontSize: 14,
+                    //   fontWeight: FontWeight.w500,
+                    //   height: 1.2,
+                    // ),
                     children: _buildSubtitleSpans(subtitle),
                   ),
                 ),
@@ -133,21 +134,19 @@ class _PromotionalBannerState extends State<PromotionalBanner> {
         spans.add(TextSpan(text: parts[i]));
       }
 
-      // إضافة كلمة "إيزي" باللون الأزرق إذا لم نكن في النهاية
       if (i < parts.length - 1) {
         spans.add(
-          const TextSpan(
+          TextSpan(
             text: 'إيزي  ',
-            style: TextStyle(
-              color: Colors.blue,
-              fontSize: 22,
+            style: TextStylesManager.titleLarge.copyWith(
+              color: AppPalette.primary,
               fontWeight: FontWeight.bold,
+              fontSize: 22,
             ),
           ),
         );
       }
     }
-
     return spans;
   }
 }
@@ -171,10 +170,7 @@ class SearchSection extends StatelessWidget {
       },
       decoration: InputDecoration(
         hintText: 'ابحث عن درس ...',
-        hintStyle: TextStyle(
-          color: AppPalette.lightBlack,
-          fontSize: 14,
-        ),
+        hintStyle: TextStylesManager.titleSmall,
         prefixIcon: Icon(
           Icons.search_sharp,
           color: AppPalette.lightBlack,
@@ -185,13 +181,17 @@ class SearchSection extends StatelessWidget {
         fillColor: AppPalette.textFiledSearch,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
-          borderSide:
-              BorderSide(color: AppPalette.textFiledEnabledBorder, width: 0.5),
+          borderSide: BorderSide(
+            color: AppPalette.textFiledEnabledBorder,
+            width: 0.5,
+          ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
-          borderSide:
-              BorderSide(color: AppPalette.textFiledEnabledBorder, width: 1),
+          borderSide: BorderSide(
+            color: AppPalette.textFiledEnabledBorder,
+            width: 1,
+          ),
         ),
       ),
       style: TextStyle(color: AppPalette.textBlack),
@@ -207,16 +207,7 @@ class WelcomeSection extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 16.0),
       child: Column(
-        children: [
-          Text(
-            'أحدث العروض',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: AppPalette.textBlack,
-            ),
-          ),
-        ],
+        children: [Text('أحدث العروض', style: TextStylesManager.titleLarge)],
       ),
     );
   }
@@ -233,30 +224,17 @@ class ServicesSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              'الأقسام ',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
-              ),
-            ),
+            Text('الأقسام ', style: TextStylesManager.titleLarge),
             TextButton(
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const SectionScreen()),
+                    builder: (context) => const SectionScreen(),
+                  ),
                 );
               },
-              child: Text(
-                'المزيد',
-                style: TextStyle(
-                  color: Colors.orange,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              child: Text('المزيد', style: TextStylesManager.bodySmallLight),
             ),
           ],
         ),
@@ -354,20 +332,12 @@ class ServiceCard extends StatelessWidget {
                   color: AppPalette.badgeButton,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
-                  service.icon,
-                  size: 25,
-                  color: service.color,
-                ),
+                child: Icon(service.icon, size: 25, color: service.color),
               ),
               const SizedBox(height: 8),
               Text(
                 service.title,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black87,
-                ),
+                style: TextStylesManager.titleSmall,
                 textAlign: TextAlign.center,
               ),
             ],
@@ -383,11 +353,7 @@ class ServiceItem {
   final String title;
   final Color color;
 
-  ServiceItem({
-    required this.icon,
-    required this.title,
-    required this.color,
-  });
+  ServiceItem({required this.icon, required this.title, required this.color});
 }
 
 class ContinueLessonsCard extends StatelessWidget {
@@ -415,18 +381,11 @@ class ContinueLessonsCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'الفرق بين {a-an}',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
+                style: TextStylesManager.bodyMediumLight,
               ),
-              Icon(
-                Icons.bookmark,
-                color: Colors.orange,
-              ),
+              Icon(Icons.bookmark, color: Colors.orange),
             ],
           ),
           const SizedBox(height: 4),
@@ -436,13 +395,9 @@ class ContinueLessonsCard extends StatelessWidget {
             },
             child: const Text(
               '4 أسئلة تقييم وتمارين',
-              style: TextStyle(
-                fontSize: 13,
-                color: Colors.grey,
-              ),
+              style: TextStyle(fontSize: 13, color: Colors.grey),
             ),
           ),
-
 
           const SizedBox(height: 4),
 
@@ -453,10 +408,7 @@ class ContinueLessonsCard extends StatelessWidget {
               SizedBox(width: 4),
               Text(
                 '5 دقائق',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
-                ),
+                style: TextStyle(fontSize: 12, color: Colors.grey),
               ),
             ],
           ),
@@ -483,26 +435,26 @@ class ContinueLessonsCard extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
                 ),
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const LessonsScreen()),
+                      builder: (context) => const LessonsScreen(),
+                    ),
                   );
                 },
-                child: const Text(
+                child: Text(
                   'استكمل',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                  ),
+                  style: TextStylesManager.headlineSmallLight,
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );

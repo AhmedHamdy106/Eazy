@@ -1,3 +1,4 @@
+import 'package:eazy/core/config/text_styles_manager.dart';
 import 'package:eazy/features/Subscriptions/Screens/Upgrade%20now.dart';
 import 'package:flutter/material.dart';
 import 'package:eazy/core/config/app_palette.dart';
@@ -131,25 +132,20 @@ class LessonItem extends StatelessWidget {
         padding: EdgeInsets.all(16.w),
         child: Row(
           children: [
-            // النص
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     subtitle,
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: Colors.grey,
+                    style: TextStylesManager.headlineMediumLight.copyWith(
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                   SizedBox(height: 4.h),
                   Text(
                     title,
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
+                    style: TextStylesManager.bodyMediumLight.copyWith(
                       color: isLocked ? Colors.black : Colors.black,
                     ),
                   ),
@@ -180,18 +176,22 @@ class LessonItem extends StatelessWidget {
                     ),
                     padding: EdgeInsets.zero,
                   ),
-                  child: Text(
-                    "اشترك",
-                    style: TextStyle(
-                      fontSize: 10.sp,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "اشترك",
+                        style: TextStylesManager.headlineSmallLight.copyWith(
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      SizedBox(width: 2),
+                      Icon(Icons.lock, size: 16.sp, color: Colors.white),
+                    ],
                   ),
                 ),
               ),
               SizedBox(width: 2.w),
-              Icon(Icons.lock, size: 16.sp, color: Colors.grey),
             ],
             Container(
               width: 40.w,

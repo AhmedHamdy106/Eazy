@@ -6,19 +6,23 @@ import 'package:flutter/material.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 
 class CustomNavBar extends StatefulWidget {
-  const CustomNavBar({super.key});
+  const CustomNavBar({super.key, this.initialIndex = 1});
+  final int initialIndex;
 
   @override
   State<CustomNavBar> createState() => _CustomNavBarState();
 }
 
 class _CustomNavBarState extends State<CustomNavBar> {
-  int _currentIndex = 1; // Start with home selected
+  late int _currentIndex; // Start with home selected
 
-  final iconList = <IconData>[
-    Icons.menu_book_outlined,
-    Icons.person_rounded,
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.initialIndex; // ابدأ بالـ index اللي جاي من بره
+  }
+
+  final iconList = <IconData>[Icons.menu_book_outlined, Icons.person_rounded];
 
   final labels = ['دروسي', 'الرئيسية', 'حسابي'];
 
@@ -26,10 +30,6 @@ class _CustomNavBarState extends State<CustomNavBar> {
     const MyLessonsScreen(),
     const HomeScreen(),
     const ProfileScreen(),
-
-
-
-
   ];
 
   @override
@@ -37,10 +37,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
     return Scaffold(
       extendBody: false,
       backgroundColor: Colors.grey[100],
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _pages,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _pages),
       floatingActionButton: Container(
         width: 65,
         height: 65,
@@ -49,8 +46,9 @@ class _CustomNavBarState extends State<CustomNavBar> {
           color: _currentIndex == 1 ? AppPalette.badgeButton : Colors.black,
           boxShadow: [
             BoxShadow(
-              color: (_currentIndex == 1 ? AppPalette.badgeButton : Colors.black)
-                  .withOpacity(0.3),
+              color:
+                  (_currentIndex == 1 ? AppPalette.badgeButton : Colors.black)
+                      .withOpacity(0.3),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
@@ -59,11 +57,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
         child: FloatingActionButton(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          child: const Icon(
-            Icons.home,
-            size: 30,
-            color: Colors.white,
-          ),
+          child: const Icon(Icons.home, size: 30, color: Colors.white),
           onPressed: () {
             setState(() {
               _currentIndex = 1;
@@ -89,7 +83,9 @@ class _CustomNavBarState extends State<CustomNavBar> {
               Text(
                 labels[actualIndex],
                 style: TextStyle(
-                  color: isCurrentActive ? AppPalette.badgeButton : Colors.black,
+                  color: isCurrentActive
+                      ? AppPalette.badgeButton
+                      : Colors.black,
                 ),
               ),
             ],

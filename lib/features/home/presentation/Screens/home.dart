@@ -1,3 +1,4 @@
+import 'package:eazy/core/config/text_styles_manager.dart';
 import 'package:eazy/notification/presentation/screen/notification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:eazy/core/config/app_palette.dart';
@@ -53,16 +54,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text(
                   'مرحباً بك في',
                   textAlign: TextAlign.right,
-                  style: TextStyle(
-                    color: Colors.black87,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStylesManager.titleLarge,
                 ),
                 const SizedBox(width: 8),
                 Container(
                   padding: const EdgeInsets.all(2),
                   child: Image.asset(ImagesManager.eazytxt),
+                ),
+                const SizedBox(width: 2),
+                Text(
+                  "!",
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                  ),
                 ),
               ],
             ),
@@ -96,14 +102,7 @@ class ContinueLessonsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'استكمل دروسك',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.black87,
-          ),
-        ),
+        Text('استكمل دروسك', style: TextStylesManager.titleLarge),
         const SizedBox(height: 12),
         const ContinueLessonsCard(),
       ],
