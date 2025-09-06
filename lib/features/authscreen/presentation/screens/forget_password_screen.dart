@@ -1,10 +1,19 @@
-import 'package:eazy/constants.dart';
+import 'package:dio/dio.dart';
+import 'package:eazy/features/authscreen/data/datasources/auth_remote_datasource.dart';
+import 'package:eazy/features/authscreen/data/repositories/auth_repository_impl.dart';
+import 'package:eazy/features/authscreen/domain/usecases/send_otp_usecase.dart';
+import 'package:eazy/features/authscreen/presentation/screens/otp_screen.dart';
 import 'package:eazy/features/authscreen/widgets/custom_buttom.dart';
 import 'package:eazy/features/authscreen/widgets/custom_icon_bar.dart';
 import 'package:eazy/features/authscreen/widgets/custom_text_field.dart';
 import 'package:eazy/helper/show_snack_bar.dart';
 import 'package:flutter/material.dart';
-import 'otp_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../../constants.dart';
+import '../cubit/send_otp_cubit.dart';
+import '../cubit/send_otp_state.dart';
+import '../../../../core/network/shared_prefrence.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -15,118 +24,155 @@ class ForgetPasswordScreen extends StatefulWidget {
 }
 
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
-  GlobalKey<FormState> formKey = GlobalKey();
+  final GlobalKey<FormState> formKey = GlobalKey();
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
-  String? emailOrPhone;
+  String? phone;
+
+  AuthRepositoryImpl? authRepository;
+
+  @override
+  void initState() {
+    super.initState();
+    _initRepository();
+  }
+
+  Future<void> _initRepository() async {
+    setState(() {
+      authRepository = AuthRepositoryImpl(
+        remoteDataSource: AuthRemoteDataSourceImpl(Dio()),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: CustomIconBar(),
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Form(
-            key: formKey,
-            autovalidateMode: autoValidateMode,
-            child: Column(
-              children: [
-                SizedBox(height: 50),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    'نسيت كلمه المرور',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        'أدخل رقم الهاتف/البريد الالكتروني ',
-                        style: TextStyle(color: kSecondaryColor, fontSize: 18),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        'لاستعادة كلمة المرور',
-                        style: TextStyle(color: kSecondaryColor, fontSize: 18),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 50),
+    if (authRepository == null) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
 
-                CustomTextField(
-                  text: ' أدخل رقم هاتف / بريد اليكتروني',
-                  onChanged: (value) {
-                    emailOrPhone = value;
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'برجاء إدخال البريد الإلكتروني أو رقم الهاتف';
-                    }
-                    final emailRegex = RegExp(
-                      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-                    );
-                    final phoneRegex = RegExp(r'^[0-9]{10,15}$');
+    final sendOtpUseCase = SendOtpUseCase(authRepository!);
 
-                    if (!emailRegex.hasMatch(value) &&
-                        !phoneRegex.hasMatch(value)) {
-                      return 'برجاء إدخال بريد إلكتروني أو رقم هاتف صحيح';
-                    }
-                    return null;
-                  },
+    return BlocProvider(
+      create: (_) => SendOtpCubit(sendOtpUseCase),
+      child: BlocConsumer<SendOtpCubit, SendOtpState>(
+        listener: (context, state) async {
+          if (state is SendOtpFailure) {
+            showSnackBar(context, state.message,Colors.red);
+          } else if (state is SendOtpSuccess) {
+            // 🔹 حفظ الهاتف مؤقتًا في SharedPreferences
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.setString("phone", phone!);
+
+            showSnackBar(context, 'تم إرسال OTP بنجاح',Colors.green);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => OtpScreen(phone: phone!),
+              ),
+            );
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.white,
+              elevation: 0,
+              actions: [
+                IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const CustomIconBar(),
                 ),
-                SizedBox(height: height(context) * 0.4),
-                CustomButton(
-                  onTap: () {
-                    if (formKey.currentState!.validate()) {
-                      formKey.currentState!.save();
-                      showSnackBar(
-                        context,
-                        'تم إرسال رابط استعادة كلمة المرور',
-                      );
-                      if (emailOrPhone != null && emailOrPhone!.isNotEmpty) {
-                        Navigator.pushNamed(
-                          context,
-                          OtpScreen.routeName,
-                          arguments: emailOrPhone,
-                        );
-                      }
-                    } else {
-                      setState(() {
-                        autoValidateMode = AutovalidateMode.always;
-                      });
-                    }
-                  },
-                  text: 'تأكيد',
-                ),
-                const SizedBox(height: 50),
               ],
             ),
-          ),
-        ),
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: formKey,
+                  autovalidateMode: autoValidateMode,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 50),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          'تاكيد البريد الالكتروني',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Column(
+                        children: const [
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              'أدخل رقم الهاتف ',
+                              style: TextStyle(
+                                  color: kSecondaryColor, fontSize: 18),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              ' لتاكيد البريد الالكتروني',
+                              style: TextStyle(
+                                  color: kSecondaryColor, fontSize: 18),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 50),
+                      CustomTextField(
+                        text: ' أدخل رقم هاتف ',
+                        onChanged: (value) => phone = value,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'برجاء ادخال رقم الهاتف';
+                          }
+                          final phoneRegex = RegExp(r'^[0-9]{10,15}$');
+                          if (!phoneRegex.hasMatch(value)) {
+                            return 'برجاء إدخال رقم هاتف صحيح';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.4),
+                      state is SendOtpLoading
+                          ? const CircularProgressIndicator()
+                          : CustomButton(
+                        onTap: () {
+                          if (formKey.currentState!.validate()) {
+                            formKey.currentState!.save();
+                            if (phone != null && phone!.isNotEmpty) {
+                              context
+                                  .read<SendOtpCubit>()
+                                  .sendOtp(phone!);
+                            }
+                          } else {
+                            setState(() {
+                              autoValidateMode =
+                                  AutovalidateMode.always;
+                            });
+                          }
+                        },
+                        text: 'تأكيد',
+                      ),
+                      const SizedBox(height: 50),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

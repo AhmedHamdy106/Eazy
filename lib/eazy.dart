@@ -26,7 +26,7 @@ class Eazy extends StatelessWidget {
         supportedLocales: const [Locale('en'), Locale('ar')],
         locale: const Locale('ar'),
         debugShowCheckedModeBanner: false,
-        initialRoute: Routes.LessonsScreen,
+        initialRoute: Routes.splashScreen,
         onGenerateRoute: _appRouter.generateRoute,
       ),
     );
