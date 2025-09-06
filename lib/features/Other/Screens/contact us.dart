@@ -1,6 +1,7 @@
 import 'package:eazy/core/config/app_palette.dart';
 import 'package:eazy/core/config/images_manager.dart';
 import 'package:eazy/features/Other/Screens/common%20questions.dart';
+import 'package:eazy/features/profile/presentation/screen/profileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

@@ -1,6 +1,7 @@
 import 'package:eazy/core/config/app_palette.dart';
 import 'package:eazy/core/config/images_manager.dart';
 import 'package:eazy/features/Subscriptions/Screens/payment.dart';
+import 'package:eazy/features/profile/presentation/screen/profileScreen.dart';
 import 'package:eazy/nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
